@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net"
 	"os"
@@ -29,7 +28,7 @@ func main() {
 		log.Fatalf("Error when listening on TCP port: %v", err)
 	}
 
-	priv, err := ioutil.ReadFile(config.TokenService.AccessTokenPrivateKey)
+	priv, err := os.ReadFile(config.TokenService.AccessTokenPrivateKey)
 	if err != nil {
 		log.Fatalf("could not read private key pem file: %v", err)
 	}
