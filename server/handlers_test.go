@@ -42,7 +42,7 @@ func TestNewPairFromUserID(t *testing.T) {
 
 	userID := uuid.NewString()
 
-	repo := mockrepo.NewMockTokenRepository()
+	repo := new(mockrepo.MockTokenRepository)
 	repo.On("SaveToken", mock.AnythingOfType("string"), time.Hour*24).Return(nil)
 
 	service := server.NewTokenService(repo, RefreshSecret, *PrivateKey, time.Hour*24, time.Minute*20)
@@ -79,7 +79,7 @@ func TestNewPairFromUserID(t *testing.T) {
 }
 func TestNewPairFromRefresh(t *testing.T) {
 
-	repo := mockrepo.NewMockTokenRepository()
+	repo := new(mockrepo.MockTokenRepository)
 
 	userID := uuid.NewString()
 	repo.On("SaveToken", userID).Return(nil)
@@ -198,7 +198,7 @@ func TestNewPairFromRefresh(t *testing.T) {
 }
 func TestDeleteUserToken(t *testing.T) {
 
-	repo := mockrepo.NewMockTokenRepository()
+	repo := new(mockrepo.MockTokenRepository)
 
 	userID := uuid.NewString()
 	service := server.NewTokenService(repo, RefreshSecret, *PrivateKey, time.Hour*24, time.Minute*20)
@@ -254,7 +254,7 @@ func TestDeleteUserToken(t *testing.T) {
 
 func TestGetPublicKey(t *testing.T) {
 
-	repo := mockrepo.NewMockTokenRepository()
+	repo := new(mockrepo.MockTokenRepository)
 	service := server.NewTokenService(repo, RefreshSecret, *PrivateKey, time.Hour*24, time.Minute*20)
 
 	pubKey, err := service.GetPublicKey(context.Background(), &pb.Empty{})
