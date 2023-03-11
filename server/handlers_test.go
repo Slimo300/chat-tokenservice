@@ -3,7 +3,6 @@ package server_test
 import (
 	"context"
 	"crypto/rsa"
-	"io/ioutil"
 	"log"
 	"os"
 	"testing"
@@ -24,7 +23,7 @@ var RefreshSecret string
 
 func TestMain(m *testing.M) {
 
-	priv, err := ioutil.ReadFile(os.Getenv("PRIV_KEY_FILE"))
+	priv, err := os.ReadFile(os.Getenv("PRIV_KEY_FILE"))
 	if err != nil {
 		log.Fatal("could not read private key pem file: %w", err)
 	}
