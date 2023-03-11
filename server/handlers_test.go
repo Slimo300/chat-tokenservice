@@ -2,6 +2,7 @@ package server_test
 
 import (
 	"context"
+	"crypto/rand"
 	"crypto/rsa"
 	"log"
 	"os"
@@ -22,17 +23,14 @@ var PrivateKey *rsa.PrivateKey
 var RefreshSecret string
 
 func TestMain(m *testing.M) {
-
-	priv, err := os.ReadFile(os.Getenv("PRIV_KEY_FILE"))
+	// generate key
+	priv, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
-		log.Fatal("could not read private key pem file: %w", err)
+		log.Fatal("Cannot generate RSA key\n")
 	}
-	PrivateKey, err = jwt.ParseRSAPrivateKeyFromPEM(priv)
-	if err != nil {
-		log.Fatal("could not parse private key: %w", err)
-	}
+	PrivateKey = priv
 
-	RefreshSecret = os.Getenv("REFRESH_SECRET")
+	RefreshSecret = "secret"
 
 	os.Exit(m.Run())
 }
