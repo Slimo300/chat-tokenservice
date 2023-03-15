@@ -127,6 +127,6 @@ func (srv *TokenService) GetPublicKey(ctx context.Context, empty *pb.Empty) (*pb
 
 	return &pb.PublicKey{
 		PublicKey: pubKey,
-		Iteration: srv.iteration.String(),
+		Iteration: srv.id.String(),
 	}, nil
 }

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"crypto/rand"
+	"crypto/rsa"
 	"fmt"
 	"log"
 	"net"
@@ -12,7 +14,6 @@ import (
 	"github.com/Slimo300/MicroservicesChatApp/backend/lib/configuration"
 	"github.com/Slimo300/MicroservicesChatApp/backend/token-service/repo/redis"
 	"github.com/Slimo300/MicroservicesChatApp/backend/token-service/server"
-	"github.com/golang-jwt/jwt"
 	"google.golang.org/grpc"
 )
 
@@ -28,13 +29,9 @@ func main() {
 		log.Fatalf("Error when listening on TCP port: %v", err)
 	}
 
-	priv, err := os.ReadFile(config.TokenService.AccessTokenPrivateKey)
+	privKey, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
-		log.Fatalf("could not read private key pem file: %v", err)
-	}
-	privKey, err := jwt.ParseRSAPrivateKeyFromPEM(priv)
-	if err != nil {
-		log.Fatalf("could not parse private key: %v", err)
+		log.Fatalf("could not generate key: %v", err)
 	}
 
 	repo, err := redis.NewRedisTokenRepository(config.TokenService.RedisAddress, config.TokenService.RedisPass)

@@ -11,7 +11,7 @@ import (
 
 type TokenService struct {
 	*pb.UnimplementedTokenServiceServer
-	iteration             uuid.UUID
+	id                    uuid.UUID
 	repo                  repo.TokenRepository
 	refreshTokenSecret    string
 	accessTokenPrivateKey rsa.PrivateKey
@@ -23,7 +23,7 @@ func NewTokenService(repo repo.TokenRepository, refreshSecret string, accessPriv
 	refreshDuration, accessDuration time.Duration) *TokenService {
 
 	return &TokenService{
-		iteration:             uuid.New(),
+		id:                    uuid.New(),
 		repo:                  repo,
 		refreshTokenSecret:    refreshSecret,
 		accessTokenPrivateKey: accessPrivKey,
