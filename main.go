@@ -9,7 +9,6 @@ import (
 	"syscall"
 
 	"github.com/Slimo300/MicroservicesChatApp/backend/lib/auth/pb"
-	"github.com/Slimo300/MicroservicesChatApp/backend/lib/configuration"
 	"github.com/Slimo300/MicroservicesChatApp/backend/token-service/repo/redis"
 	"github.com/Slimo300/MicroservicesChatApp/backend/token-service/server"
 	"google.golang.org/grpc"
@@ -17,23 +16,20 @@ import (
 
 func main() {
 
-	config, err := configuration.LoadConfig(os.Getenv("CHAT_CONFIG"))
-	if err != nil {
-		log.Fatal(err)
-	}
+	config, err := loadConfig()
 
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", config.TokenService.GRPCPort))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", config.GRPCPort))
 	if err != nil {
 		log.Fatalf("Error when listening on TCP port: %v", err)
 	}
 
-	repo, err := redis.NewRedisTokenRepository(config.TokenService.RedisAddress, config.TokenService.RedisPass)
+	repo, err := redis.NewRedisTokenRepository(config.RedisAddress, config.RedisPassword)
 	if err != nil {
 		log.Fatal("could not connect to redis")
 	}
 
 	s, err := server.NewTokenService(repo,
-		config.TokenService.RefreshTokenSecret,
+		config.RefreshTokenSecret,
 		config.RefreshDuration,
 		config.AccessDuration,
 	)
@@ -51,7 +47,7 @@ func main() {
 	go func() { errChan <- grpcServer.Serve(lis) }()
 
 	log.Println("Starting token service...")
-	log.Printf("Listening on port: %s", config.TokenService.GRPCPort)
+	log.Printf("Listening on port: %s", config.GRPCPort)
 
 	select {
 	case <-quit:
