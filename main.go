@@ -17,6 +17,9 @@ import (
 func main() {
 
 	config, err := loadConfig()
+	if err != nil {
+		log.Fatalf("Couldn't read configuration: %v", err)
+	}
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", config.GRPCPort))
 	if err != nil {
