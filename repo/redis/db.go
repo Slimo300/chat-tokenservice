@@ -37,12 +37,12 @@ func (rdb *redisTokenRepository) GetPrivateKey() (*rsa.PrivateKey, error) {
 		return nil, err
 	}
 
-	var privateKey *rsa.PrivateKey
-	if err := json.Unmarshal([]byte(res), privateKey); err != nil {
+	var privateKey rsa.PrivateKey
+	if err := json.Unmarshal([]byte(res), &privateKey); err != nil {
 		return nil, err
 	}
 
-	return privateKey, redis.Nil
+	return &privateKey, redis.Nil
 }
 
 func (rdb *redisTokenRepository) SetPrivateKey(key *rsa.PrivateKey) error {

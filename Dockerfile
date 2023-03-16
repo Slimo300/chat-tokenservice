@@ -20,7 +20,7 @@ COPY --from=build app/tokenservice /tokenservice
 # GRPC port for communication with other services
 ENV GRPC_PORT=9000
 # Address to connect with redis
-ENV REDIS_ADDRESS=localhost:6379
+ENV REDIS_ADDRESS=redis:6379
 # Redis password
 ENV REDIS_PASSWORD=redis
 # Secret used to sign refresh tokens
