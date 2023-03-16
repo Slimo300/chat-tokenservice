@@ -1,4 +1,4 @@
-module github.com/Slimo300/MicroservicesChatApp/backend/token-service
+module github.com/Slimo300/chat-tokenservice
 
 go 1.19
 

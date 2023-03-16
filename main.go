@@ -9,8 +9,8 @@ import (
 	"syscall"
 
 	"github.com/Slimo300/MicroservicesChatApp/backend/lib/auth/pb"
-	"github.com/Slimo300/MicroservicesChatApp/backend/token-service/repo/redis"
-	"github.com/Slimo300/MicroservicesChatApp/backend/token-service/server"
+	"github.com/Slimo300/chat-tokenservice/repo/redis"
+	"github.com/Slimo300/chat-tokenservice/server"
 	"google.golang.org/grpc"
 )
 
