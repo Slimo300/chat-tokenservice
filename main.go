@@ -1,8 +1,6 @@
 package main
 
 import (
-	"crypto/rand"
-	"crypto/rsa"
 	"fmt"
 	"log"
 	"net"
@@ -29,25 +27,21 @@ func main() {
 		log.Fatalf("Error when listening on TCP port: %v", err)
 	}
 
-	privKey, err := rsa.GenerateKey(rand.Reader, 2048)
-	if err != nil {
-		log.Fatalf("could not generate key: %v", err)
-	}
-
 	repo, err := redis.NewRedisTokenRepository(config.TokenService.RedisAddress, config.TokenService.RedisPass)
 	if err != nil {
 		log.Fatal("could not connect to redis")
 	}
 
-	s := server.NewTokenService(repo,
+	s, err := server.NewTokenService(repo,
 		config.TokenService.RefreshTokenSecret,
-		*privKey,
 		config.RefreshDuration,
 		config.AccessDuration,
 	)
+	if err != nil {
+		log.Fatalf("Error creating token service: %v", err)
+	}
 
 	grpcServer := grpc.NewServer()
-
 	pb.RegisterTokenServiceServer(grpcServer, s)
 
 	errChan := make(chan error)
