@@ -10,7 +10,7 @@ import (
 	"github.com/google/uuid"
 	"google.golang.org/grpc"
 
-	"github.com/Slimo300/MicroservicesChatApp/backend/lib/auth/pb"
+	"github.com/Slimo300/chat-tokenservice/pkg/client/pb"
 )
 
 type gRPCTokenAuthClient struct {
