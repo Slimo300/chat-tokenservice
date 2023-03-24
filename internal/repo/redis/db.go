@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Slimo300/chat-tokenservice/repo"
+	"github.com/Slimo300/chat-tokenservice/internal/repo"
 	"github.com/go-redis/redis"
 )
 

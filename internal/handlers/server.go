@@ -1,12 +1,12 @@
-package server
+package handlers
 
 import (
 	"crypto/rand"
 	"crypto/rsa"
 	"time"
 
-	"github.com/Slimo300/MicroservicesChatApp/backend/lib/auth/pb"
-	"github.com/Slimo300/chat-tokenservice/repo"
+	"github.com/Slimo300/chat-tokenservice/internal/repo"
+	"github.com/Slimo300/chat-tokenservice/pkg/client/pb"
 	"github.com/go-redis/redis"
 )
 
