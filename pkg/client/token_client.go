@@ -9,6 +9,7 @@ import (
 
 	"github.com/google/uuid"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 
 	"github.com/Slimo300/chat-tokenservice/pkg/client/pb"
 )
@@ -20,7 +21,7 @@ type gRPCTokenAuthClient struct {
 
 // NewGRPCTokenClient is a constructor for grpc client to reach token service
 func NewGRPCTokenClient(address string) (TokenClient, error) {
-	conn, err := grpc.Dial(address, grpc.WithInsecure())
+	conn, err := grpc.Dial(address, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		return nil, err
 	}
